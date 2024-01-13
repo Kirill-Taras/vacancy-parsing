@@ -10,15 +10,6 @@ class BasicAPI(ABC):
         pass
 
 
-class HeadHunterAPI(BasicAPI):
-    """Получение вакансий с платформы hh.ru"""
-    def __init__(self):
-        pass
-
-    def get_vacancies(self):
-        pass
-
-
 class SuperJobAPI(BasicAPI):
     """Получение вакансий с платформы superjob.ru"""
     def __init__(self):
