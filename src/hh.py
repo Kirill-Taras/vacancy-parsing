@@ -10,7 +10,7 @@ from src.class_api import BasicAPI
 
 class HeadHunterAPI(BasicAPI):
     """Класс для получения вакансий с платформы hh.ru"""
-    def __init__(self, query):
+    def __init__(self, query: str):
         self.query = query
         self.params = {
             "text": self.query,  # слово для поиска по вакансиям.
