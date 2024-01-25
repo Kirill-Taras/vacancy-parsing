@@ -12,18 +12,25 @@ load_dotenv()
 
 class SuperJobAPI(BasicAPI):
     """Класс для получения вакансий с платформы superjob.ru"""
-    def __init__(self, query):
+    def __init__(self, query: str):
         self.query = query
         self.params = {
-            "keyword": self.query,
-            "count": 100
+            "keywords": self.query,  # ключевое слово.
+            "count": 100  # количество вакансий.
         }
+        self.headers = {"X-Api-App-Id": os.getenv("SJ_API_KEY")}
 
-    def get_vacancies(self) -> list[dict]:
-        headers = {"X-Api-App-Id": os.getenv("SJ_API_KEY")}
-        return requests.get(url=SJ_URL, params=self.params, headers=headers).json()["objects"]
+    def get_vacancies(self, page=0) -> list[dict]:
+        """
+                Метод получения вакансий.
+                :return: Список с вакансиями
+                """
+        self.params["page"] = page  # номер страницы.
+        return requests.get(url=SJ_URL, params=self.params, headers=self.headers).json()["objects"]
 
 
-sb = SuperJobAPI("python")
-print(len(sb.get_vacancies()))
-pprint(sb.get_vacancies())
+# if __name__ == '__main__':
+#     sb = SuperJobAPI("полный")
+#     res = sb.get_vacancies()
+#     print(len(res))
+#     pprint(res)
