@@ -1,6 +1,13 @@
 class Vacancy:
     """Kласс для работы с вакансиями."""
 
+    __slots__ = ["vacancy_name",
+                 "salary_from",
+                 "salary_to",
+                 "url_vacancy",
+                 "town_job",
+                 "description_vacancy"]
+
     def __init__(
             self,
             vacancy_name: str,
@@ -11,8 +18,8 @@ class Vacancy:
             description_vacancy: str
     ):
         self.vacancy_name = vacancy_name  # название вакансии
-        self.salary_from = salary_from  # миниальная зарплата
-        self.salary_to = salary_to  # максимальная зарплата
+        self.salary_from = self.validate_salary(salary_from)  # миниальная зарплата
+        self.salary_to = self.validate_salary(salary_to)  # максимальная зарплата
         self.url_vacancy = url_vacancy  # ссылка на вакансию
         self.town_job = town_job  # город для работы
         self.description_vacancy = description_vacancy  # описание работы
@@ -25,21 +32,33 @@ class Vacancy:
         else:
             return salary
 
+    @property
     def average_salary(self):
         """Вычислнение средней зарплаты"""
         return (self.salary_to + self.salary_from) / 2
 
+    def to_dict(self):
+        """Метод формирования словаря для вакансии"""
+        return {
+            "vacancy_name": self.vacancy_name,
+            "salary_from": self.salary_from,
+            "salary_to": self.salary_to,
+            "url_vacancy": self.url_vacancy,
+            "town_job": self.town_job,
+            "description_vacancy": self.description_vacancy
+        }
+
     def __gt__(self, other):
         """Метод сравнения зарплаты"""
-        return self > other
+        return self.average_salary > other.average_salary
 
     def __lt__(self, other):
         """Метод сравнения зарплаты"""
-        return self < other
+        return self.average_salary < other.average_salary
 
     def __eq__(self, other):
         """Метод сравнения зарплаты"""
-        return self == other
+        return self.average_salary == other.average_salary
 
     def __str__(self):
         return (f"vacancy_name:{self.vacancy_name}, "
@@ -51,12 +70,24 @@ class Vacancy:
 
 
 class HeadHunterVacancy(Vacancy):
+    platform_name = "HeadHunter"
 
     def __str__(self):
         return f"HeadHunter {super().__str__()}"
 
+    def to_dict(self):
+        vacancy_dict = super().to_dict()
+        vacancy_dict["platform"] = self.platform_name
+        return vacancy_dict
+
 
 class SuperJobVacancy(Vacancy):
+    platform_name = "SuperJob"
 
     def __str__(self):
         return f"SuperJob {super().__str__()}"
+
+    def to_dict(self):
+        vacancy_dict = super().to_dict()
+        vacancy_dict["platform"] = self.platform_name
+        return vacancy_dict
