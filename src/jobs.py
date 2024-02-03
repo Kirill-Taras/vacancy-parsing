@@ -22,15 +22,23 @@ class Vacancy:
         self.salary_to = self.validate_salary(salary_to)  # максимальная зарплата
         self.url_vacancy = url_vacancy  # ссылка на вакансию
         self.town_job = town_job  # город для работы
-        self.description_vacancy = description_vacancy  # описание работы
+        self.description_vacancy = self.validate_description(description_vacancy)  # описание работы
 
     @staticmethod
     def validate_salary(salary):
         """Метод преобразования зарплаты"""
-        if salary is None:
+        if not isinstance(salary, int):
             return 0
         else:
             return salary
+
+    @staticmethod
+    def validate_description(description_vacancy):
+        """Метод коррктирования описания вакансии"""
+        if not isinstance(description_vacancy, str):
+            return "Описание отсутствует"
+        else:
+            return description_vacancy.replace("<highlighttext>", "").replace("</highlighttext>", "")
 
     @property
     def average_salary(self):

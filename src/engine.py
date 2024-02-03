@@ -33,7 +33,7 @@ class JsonSever(Sever):
             old_vacancies = json.load(file)
         old_vacancies.extend(vacancies_json)
         with open(self.path, "w", encoding="utf-8") as file:
-            json.dump(old_vacancies, file)
+            json.dump(old_vacancies, file, ensure_ascii=False, indent=4)
 
     def get_vacancies(self, queries=None) -> list[dict]:
         with open(self.path, encoding="utf-8") as file:
@@ -51,4 +51,5 @@ class JsonSever(Sever):
         for vacancy in all_vacancies:
             if all(vacancy.get(field) != query for field, query in queries.items()):
                 update_vacancies.append(vacancy)
-        return update_vacancies
+        with open(self.path, "w", encoding="utf-8") as file:
+            json.dump(update_vacancies, file)
