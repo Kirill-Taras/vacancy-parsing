@@ -8,6 +8,17 @@ class Sever(ABC):
 
     def __init__(self, path):
         self.path = path
+        self.write_file_json([])
+
+    @abstractmethod
+    def read_file_json(self):
+        """Метод открытия файла для чтения"""
+        pass
+
+    @abstractmethod
+    def write_file_json(self, write_file):
+        """Метод открытия файла для записи"""
+        pass
 
     @abstractmethod
     def add_vacancies(self, vacancies: list[dict]) -> None:
@@ -27,28 +38,34 @@ class Sever(ABC):
 
 class JsonSever(Sever):
 
+    def read_file_json(self):
+        """Метод открытия файла для чтения"""
+        with open(self.path, encoding="utf-8") as file:
+            return json.load(file)
+
+    def write_file_json(self, write_file):
+        """Метод открытия файла для записи"""
+        with open(self.path, "w", encoding="utf-8") as file:
+            return json.dump(write_file, file, ensure_ascii=False, indent=4)
+
     def add_vacancies(self, vacancies: list[Vacancy]) -> None:
         vacancies_json = [vacancy.to_dict() for vacancy in vacancies]
-        with open(self.path, encoding="utf-8") as file:
-            old_vacancies = json.load(file)
+        old_vacancies = self.read_file_json()
         old_vacancies.extend(vacancies_json)
-        with open(self.path, "w", encoding="utf-8") as file:
-            json.dump(old_vacancies, file)
-
+        self.write_file_json(old_vacancies)
+        
     def get_vacancies(self, queries=None) -> list[dict]:
-        with open(self.path, encoding="utf-8") as file:
-            all_vacancies = json.load(file)
-            vacancy_list = list()
+        all_vacancies = self.read_file_json()
+        vacancy_list = list()
         for vacancy in all_vacancies:
             if all(vacancy.get(field) == query for field, query in queries.items()):
                 vacancy_list.append(vacancy)
         return vacancy_list
 
     def delete_vacancies(self, queries=None):
-        with open(self.path, encoding="utf-8") as file:
-            all_vacancies = json.load(file)
-            update_vacancies = list()
+        all_vacancies = self.read_file_json()
+        update_vacancies = list()
         for vacancy in all_vacancies:
             if all(vacancy.get(field) != query for field, query in queries.items()):
                 update_vacancies.append(vacancy)
-        return update_vacancies
+        self.write_file_json(update_vacancies)
