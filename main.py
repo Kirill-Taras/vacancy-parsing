@@ -1,9 +1,9 @@
 from pprint import pprint
 
 from config import VACANCY_JSON
+from src.class_api import HeadHunterAPI, SuperJobAPI
 from src.engine import JsonSever
-from src.hh import HeadHunterAPI
-from src.superjob import SuperJobAPI
+
 from src.utils import create_sj_vacancy, create_hh_vacancy, sort_vacancy_by_salary
 
 
@@ -27,9 +27,20 @@ def user_interaction():
     json_sever = JsonSever(VACANCY_JSON)
     json_sever.add_vacancies(sorted_vacancy_by_salary)
     count_vacancy = int(input("Какое количество вакансий желаете получить?: "))
-    description_word = input("Введите ключивые слова для поска в описании: ").split()
-    sort_vacancy_by_word = json_sever.get_vacancies({"description_vacancy": description_word})
-    pprint(sort_vacancy_by_word[0:count_vacancy])
+    description_word = input("Введите ключивое слово для поска в описании: ")
+    sort_vacancy_by_word = json_sever.get_vacancies(query=description_word)
+    user_answer = int(input(f"Вывести полученные данные в консоль "
+                            f"или записать результат в файл?: "
+                            f"\n0-файл, 1-консоль, 2-файл и консоль "))
+    if user_answer == 1:
+        pprint(sort_vacancy_by_word[0:count_vacancy])
+    if user_answer == 0:
+        json_sever.write_file_json(sort_vacancy_by_word[0:count_vacancy])
+    if user_answer == 2:
+        json_sever.write_file_json(sort_vacancy_by_word[0:count_vacancy])
+        pprint(sort_vacancy_by_word[0:count_vacancy])
+    else:
+        print("Неверный ввод")
 
 
 if __name__ == '__main__':
