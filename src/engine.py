@@ -5,6 +5,7 @@ from src.jobs import Vacancy
 
 
 class Sever(ABC):
+    """Абстрактный класс для работы с файлами"""
 
     def __init__(self, path):
         self.path = path
@@ -27,7 +28,7 @@ class Sever(ABC):
 
     @abstractmethod
     def get_vacancies(self, query=None) -> list[dict]:
-        """Метод чтения вакансий из файла"""
+        """Метод получени вакансий из файла"""
         pass
 
     @abstractmethod
@@ -37,35 +38,51 @@ class Sever(ABC):
 
 
 class JsonSever(Sever):
+    """Класс для работы с json файлами."""
 
     def read_file_json(self):
         """Метод открытия файла для чтения"""
         with open(self.path, encoding="utf-8") as file:
             return json.load(file)
 
-    def write_file_json(self, write_file):
+    def write_file_json(self, write_data):
         """Метод открытия файла для записи"""
         with open(self.path, "w", encoding="utf-8") as file:
-            return json.dump(write_file, file, ensure_ascii=False, indent=4)
+            return json.dump(write_data, file, ensure_ascii=False, indent=4)
 
     def add_vacancies(self, vacancies: list[Vacancy]) -> None:
+        """"Метод добавления вакансий в файл json"""
         vacancies_json = [vacancy.to_dict() for vacancy in vacancies]
         old_vacancies = self.read_file_json()
         old_vacancies.extend(vacancies_json)
         self.write_file_json(old_vacancies)
         
-    def get_vacancies(self, queries=None) -> list[dict]:
+    def get_vacancies(self, query=None) -> list[dict]:
+        """"Метод получения вакансий из файла json"""
         all_vacancies = self.read_file_json()
         vacancy_list = list()
         for vacancy in all_vacancies:
-            if all(vacancy.get(field) == query for field, query in queries.items()):
-                vacancy_list.append(vacancy)
+            if query:
+                if query in vacancy["description_vacancy"].lower():
+                    vacancy_list.append(vacancy)
+            else:
+                vacancy_list = all_vacancies
         return vacancy_list
 
-    def delete_vacancies(self, queries=None):
+    def delete_vacancies(self, query=None):
+        """Метод удаления вакансий из файла json"""
         all_vacancies = self.read_file_json()
         update_vacancies = list()
         for vacancy in all_vacancies:
-            if all(vacancy.get(field) != query for field, query in queries.items()):
-                update_vacancies.append(vacancy)
+            if query:
+                if query not in vacancy["description_vacancy"].lower():
+                    update_vacancies.append(vacancy)
+            else:
+                update_vacancies = all_vacancies
         self.write_file_json(update_vacancies)
+
+    def clear_file(self):
+        """Метод для удаления всех вакансий из файла"""
+        with open(self.path, "w", encoding="utf-8") as file:
+            return json.dump([], file)
+
