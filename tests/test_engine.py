@@ -5,7 +5,6 @@ import pytest
 from config import TEST_JSON, TEST_VACANCY_JSON
 from src.engine import JsonSever
 from src.jobs import Vacancy
-from src.utils import create_hh_vacancy
 
 
 @pytest.fixture
