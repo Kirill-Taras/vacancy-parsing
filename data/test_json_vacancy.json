@@ -1,0 +1,26 @@
+[
+    {
+        "vacancy_name": "Python Developer",
+        "salary_from": 1000000,
+        "salary_to": 3000000,
+        "url_vacancy": "https://api.hh.ru/vacancies/92351263?host=hh.ru",
+        "town_job": "Алматы",
+        "description_vacancy": "At least 4 years of professional working experience in Python. Experience in web frameworks such as Django or Flask. "
+    },
+    {
+        "vacancy_name": "Python Developer",
+        "salary_from": 1000000,
+        "salary_to": 3000000,
+        "url_vacancy": "https://api.hh.ru/vacancies/92351262?host=hh.ru",
+        "town_job": "Астана",
+        "description_vacancy": "At least 4 years of professional working experience in Python. Experience in web frameworks such as Django or Flask. "
+    },
+    {
+        "vacancy_name": "Python Developer",
+        "salary_from": 1000000,
+        "salary_to": 3000000,
+        "url_vacancy": "https://api.hh.ru/vacancies/92351264?host=hh.ru",
+        "town_job": "Петропавловск",
+        "description_vacancy": "At least 4 years of professional working experience in Python. Experience in web frameworks such as Django or Flask. "
+    }
+]

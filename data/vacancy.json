@@ -1,0 +1,20 @@
+[
+    {
+        "vacancy_name": "Программист Python",
+        "salary_from": 1300000,
+        "salary_to": 0,
+        "url_vacancy": "https://api.hh.ru/vacancies/91273894?host=hh.ru",
+        "town_job": "Астана",
+        "description_vacancy": "Опыт разработки с использованием технологий: python 8.3, javascript, restapi, docker, apache, node.js. Опыт разработки yii2, php будет +. ",
+        "platform": "HeadHunter"
+    },
+    {
+        "vacancy_name": "Разработчик на Python",
+        "salary_from": 400000,
+        "salary_to": 800000,
+        "url_vacancy": "https://api.hh.ru/vacancies/92557831?host=hh.ru",
+        "town_job": "Астана",
+        "description_vacancy": "Опыт программирования на Python от 3 лет. Знание техник и инструментов для парсинга данных. Опыт в разработке ботов и работы...",
+        "platform": "HeadHunter"
+    }
+]
