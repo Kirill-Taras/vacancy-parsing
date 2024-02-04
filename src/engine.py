@@ -75,10 +75,10 @@ class JsonSever(Sever):
         update_vacancies = list()
         for vacancy in all_vacancies:
             if query:
-                if query not in vacancy["description_vacancy"]:
+                if query not in vacancy["description_vacancy"].lower():
                     update_vacancies.append(vacancy)
-                else:
-                    update_vacancies = all_vacancies
+            else:
+                update_vacancies = all_vacancies
         self.write_file_json(update_vacancies)
 
     def clear_file(self):

@@ -1,6 +1,6 @@
 import json
 
-from src.utils import create_sj_vacancy, create_hh_vacancy, sort_vacancy_by_salary
+from src.utils import create_sj_vacancy, create_hh_vacancy
 
 from config import TEST_SJ, TEST_HH
 
